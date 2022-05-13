@@ -1,5 +1,6 @@
 package com.medirec.controller;
 
+import com.medirec.utils.SessionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
@@ -24,6 +25,29 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    @ResponseBody
+    public JsonResponse login(User user) {
+        User loginUser = userService.login(user);
+        if (loginUser != null) {
+            SessionUtils.saveLoginUserToSession(loginUser);
+        }
+        return JsonResponse.success(loginUser);
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public JsonResponse register(User user) {
+        User registerUser = userService.register(user);
+        return JsonResponse.success(registerUser);
+    }
+
+    @RequestMapping("/home")
+    public String redirectToUserHome() {
+        return "userhome";
+    }
+
 
     /**
     * 描述：根据Id 查询

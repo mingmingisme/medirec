@@ -1,5 +1,6 @@
 package com.medirec.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.medirec.entity.User;
 import com.medirec.mapper.UserMapper;
 import com.medirec.service.UserService;
@@ -17,4 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
+    @Override
+    public User login(User user) {
+        return this.getOne(new QueryWrapper<User>().lambda()
+                .eq(User::getUsername, user.getUsername())
+                .eq(User::getPassword, user.getPassword()));
+    }
+
+    @Override
+    public User register(User user) {
+        User registerUser = this.getOne(new QueryWrapper<User>().lambda()
+        .eq(User::getUsername, user.getUsername()));
+        return registerUser == null ? user : registerUser;
+    }
 }
