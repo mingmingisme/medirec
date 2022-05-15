@@ -48,6 +48,12 @@ public class UserController {
         return "userhome";
     }
 
+    @RequestMapping("/logout")
+    public String logout() {
+        SessionUtils.removeLoginUserFromSession();
+        return "index";
+    }
+
 
     /**
     * 描述：根据Id 查询

@@ -17,4 +17,8 @@ public class SessionUtils {
     public static void saveLoginUserToSession(User user) {
         getSession().setAttribute(LOGIN_USER, user);
     }
+
+    public static void removeLoginUserFromSession() {
+        getSession().removeAttribute(LOGIN_USER);
+    }
 }

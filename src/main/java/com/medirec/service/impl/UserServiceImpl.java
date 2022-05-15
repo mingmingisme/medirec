@@ -29,6 +29,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User register(User user) {
         User registerUser = this.getOne(new QueryWrapper<User>().lambda()
         .eq(User::getUsername, user.getUsername()));
-        return registerUser == null ? user : registerUser;
+        if (registerUser == null) {
+            return this.save(user) ? user : null;
+        } else {
+            return null;
+        }
     }
 }
