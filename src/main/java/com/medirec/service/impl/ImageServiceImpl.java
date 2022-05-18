@@ -68,20 +68,54 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
 
         // path like /${dateTime}_input.npy
         String inputRelativePath = getRelativePath(dateTime, INPUT_IMAGE_APPENDIX, suffix);
+        String demoRelativePath = getRelativePath(dateTime, DEMO_IMAGE_APPENDIX, ".jpg");
+        String outputRelativePath = getRelativePath(dateTime, OUTPUT_IMAGE_APPENDIX, ".jpg");
+
+
         // path like ./file/${username}/${dateTime}_input.npy
-        String toPath = imageParentUploadPath + inputRelativePath;
+        String inputImagePath = imageParentUploadPath + inputRelativePath;
+        String demoImagePath = imageParentUploadPath + demoRelativePath;
 
-        System.out.println("inputRelativePath: " + inputRelativePath);
-        System.out.println("toPath: " + toPath);
+        boolean isInputUploaded = saveFile(file, inputImagePath);
+        boolean isDemoUploaded = false;
+        System.out.println("****suffix is: " + suffix);
+        System.out.print("is suffix == '.jpg': ");
+        System.out.println(suffix == ".jpg");
+        System.out.print("suffix.equal('.jpg'): ");
+        System.out.println(suffix.equals(".jpg"));
 
-        File toFile = new File(toPath).getParentFile();
+        System.out.println("suffix length: " + suffix.length());
+        System.out.println("'.jpg' length: " + ".jpg".length());
+        if(suffix.equals(".jpg")) {
+            isDemoUploaded = saveFile(file, demoImagePath);
+            System.out.println("**Demo image has" + (isDemoUploaded ? " " : " not ") + "been saved...");
+        } else if (suffix.equals(".npy")) {
+            isDemoUploaded =false;
+        }
+        System.out.println("**Demo image has" + (isDemoUploaded ? " " : " not ") + "been saved...");
+
+
+//        System.out.println("inputRelativePath: " + inputRelativePath);
+//        System.out.println("inputImagePath: " + inputImagePath);
+
+
+        String inputUrl = "/" + username + inputRelativePath;
+        String demoUrl = "/" + username + demoRelativePath;
+        String outputUrl = "/" + username + outputRelativePath;
+        Image image = new Image(userId, fileName, sinogram, suffix, inputUrl, demoUrl, outputUrl, localDateTime);
+
+        return image;
+    }
+
+    private boolean saveFile(MultipartFile file, String pathToUpload) throws IOException {
+        File toFile = new File(pathToUpload).getParentFile();
         if (!toFile.exists()) {
             toFile.mkdirs(); //自动创建目录
         }
 
         FileOutputStream out = null;
         try {
-            out = new FileOutputStream(toPath);
+            out = new FileOutputStream(pathToUpload);
             out.write(file.getBytes());
             out.flush();
         } catch (FileNotFoundException fnfe) {
@@ -91,17 +125,10 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
         } finally {
             if (out != null) {
                 out.close();
+                return true;
             }
+            return false;
         }
-
-        String inputUrl = "./" + username + inputRelativePath;
-        String demoRelativePath = getRelativePath(dateTime, DEMO_IMAGE_APPENDIX, ".jpg");
-        String demoUrl = "./" + username + demoRelativePath;
-        String outputRelativePath = getRelativePath(dateTime, OUTPUT_IMAGE_APPENDIX, ".jpg");
-        String outputUrl = "./" + username + outputRelativePath;
-        Image image = new Image(userId, fileName, sinogram, suffix, inputUrl, demoUrl, outputUrl, localDateTime);
-
-        return image;
     }
 
     private String getRelativePath(String dateTime, String APPENDIX, String suffix) {

@@ -30,7 +30,7 @@
                     <div class="tab-pane fade show active" id="list-home" role="tabpanel"
                          aria-labelledby="list-home-list">
                         <h2>我的主页</h2>
-                        <div th:if="${#request.getAttribute('uploadedImage') == null}">
+                        <div th:if="${session.uploadedImage == null}">
                             <h3>上传图片</h3>
                             <p>
                                 从本地选择一张需要重建的CT图像，可以是保存为.npy格式的正弦图或者DICOM、jpg格式的稀疏视角重建得到的带有伪影的图像。
@@ -39,8 +39,9 @@
                             <div class="container">
                                 <div class="row justify-content-start">
                                     <div class="col-10">
-                                        <form action="/image/uploadAndReconstructImage" method="post" enctype="multipart/form-data" id="imgUploadForm">
-<!--                                            <input type="hidden" name="userId" th:value="${session.loginUser.id}">-->
+                                        <form action="/image/uploadAndReconstructImage" method="post"
+                                              enctype="multipart/form-data" id="imgUploadForm">
+                                            <!--                                            <input type="hidden" name="userId" th:value="${session.loginUser.id}">-->
                                             <label class="form-control-label">选择图片</label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
@@ -89,9 +90,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:if="${#request.getAttribute('uploadedImage') != null}">
+                        <div th:if="${session.uploadedImage != null}">
                             <h3>重建效果</h3>
-                            <p th:text="${(#request.getAttribute('uploadedImage'))}"></p>
+                            <p th:text="${session.uploadedImage}"></p>
+                            <div class="container justify-content-around">
+                                <div class="col-5">
+                                    <h4>输入图片：</h4>
+                                    <img th:src="${session.uploadedImage.demoUrl}" alt="无图片" size="200px">
+                                </div>
+                                <div class="col05">
+                                    <h4>输入图片：</h4>
+                                    <img th:src="${session.uploadedImage.demoUrl}" alt="无图片" size="200px">
+                                </div>
+                            </div>
                         </div>
 
 

@@ -51,7 +51,8 @@ public class ImageController {
         System.out.println(uploadedImage);
 
         if (imageService.save(uploadedImage)) {
-            request.setAttribute("uploadedImage", uploadedImage);
+//            request.setAttribute("uploadedImage", uploadedImage);
+            SessionUtils.saveUploadedImageToSession(uploadedImage);
         }
         return "userhome";
     }
