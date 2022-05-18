@@ -28,6 +28,16 @@ public class User extends Model<User> {
 
     private String occupation;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", occupation='" + occupation + '\'' +
+                '}';
+    }
 
     @Override
     protected Serializable pkVal() {
