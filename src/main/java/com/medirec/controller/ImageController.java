@@ -34,8 +34,32 @@ public class ImageController {
     /**
      *
      */
+//    @RequestMapping(value = "/uploadAndReconstructImage", method = RequestMethod.POST)
+//    public String uploadAndReconstructImage(MultipartFile file,
+//                                            Boolean sinogram,
+//                                            HttpServletRequest request) throws IOException {
+//        User loginUser = SessionUtils.getLoginUserFromSession();
+//        System.out.println(loginUser);
+//        Image uploadedImage = null;
+//        if (file != null) {
+//            System.out.println("file is not null");
+//            uploadedImage = imageService.uploadAndReconstruct(file, loginUser, sinogram);
+//        } else {
+//            System.out.println("file is null!");
+//        }
+//
+//        System.out.println(uploadedImage);
+//
+//        if (imageService.save(uploadedImage)) {
+////            request.setAttribute("uploadedImage", uploadedImage);
+//            SessionUtils.saveUploadedImageToSession(uploadedImage);
+//        }
+//        return "userhome";
+//    }
+
     @RequestMapping(value = "/uploadAndReconstructImage", method = RequestMethod.POST)
-    public String uploadAndReconstructImage(MultipartFile file,
+    @ResponseBody
+    public JsonResponse uploadAndReconstructImage(MultipartFile file,
                                             Boolean sinogram,
                                             HttpServletRequest request) throws IOException {
         User loginUser = SessionUtils.getLoginUserFromSession();
@@ -54,31 +78,17 @@ public class ImageController {
 //            request.setAttribute("uploadedImage", uploadedImage);
             SessionUtils.saveUploadedImageToSession(uploadedImage);
         }
-        return "userhome";
+        return JsonResponse.success(uploadedImage);
     }
 
-//    @RequestMapping(value = "/uploadAndReconstructImage", method = RequestMethod.POST)
-//    @ResponseBody
-//    public JsonResponse uploadAndReconstructImage(MultipartFile file,
-//                                            Boolean sinogram,
-//                                            HttpServletRequest request) throws IOException {
-//        User loginUser = SessionUtils.getLoginUserFromSession();
-//        System.out.println(loginUser);
-//        Image uploadedImage = null;
-//        if (file != null) {
-//            System.out.println("file is not null");
-//            uploadedImage = imageService.uploadAndReconstruct(file, loginUser, sinogram);
-//        } else {
-//            System.out.println("file is null!");
-//        }
-//
-//        System.out.println(uploadedImage);
-//
-//        if (imageService.save(uploadedImage)) {
-//            request.setAttribute("uploadedImage", uploadedImage);
-//        }
-//        return JsonResponse.success(uploadedImage);
-//    }
+    @RequestMapping("/restore")
+    @ResponseBody
+    public JsonResponse restore(HttpServletRequest request) {
+        SessionUtils.removeUploadedImageFromSession();
+        System.out.println("$$restoring");
+
+        return JsonResponse.success("1");
+    }
 
     /**
      * 描述：根据Id 查询

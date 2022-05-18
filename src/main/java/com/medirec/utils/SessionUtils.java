@@ -31,4 +31,9 @@ public class SessionUtils {
     public static void saveUploadedImageToSession(Image uploadedImage) {
         getSession().setAttribute(UPLOADED_IMAGE, uploadedImage);
     }
+
+    public static void removeUploadedImageFromSession() {
+        getSession().removeAttribute(UPLOADED_IMAGE);
+        System.out.println("image removed");
+    }
 }
