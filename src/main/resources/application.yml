@@ -4,3 +4,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/medirec?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
     username: root
     password: admin
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${file-upload-path}
+
+file-upload-path: ./file

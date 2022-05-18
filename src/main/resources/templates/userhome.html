@@ -9,33 +9,109 @@
 
 <section class="slice py-7">
     <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <div class="list-group" id="list-tab" role="tablist">
+        <div class="row min-vh-100">
+            <div class="col-2">
+                <div class="list-group align-items-center" id="list-tab" role="tablist">
                     <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
-                       href="#list-home" role="tab" aria-controls="home">Home</a>
+                       href="#list-home" role="tab" aria-controls="home">我的主页</a>
                     <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                       href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-                       href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                       href="#list-profile" role="tab" aria-controls="profile">我的资料</a>
+                    <a class="list-group-item list-group-item-action" id="list-records-list" data-toggle="list"
+                       href="#list-records" role="tab" aria-controls="profile">上传记录</a>
                     <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                       href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+                       href="#list-settings" role="tab" aria-controls="messages">修改资料</a>
+                    <a class="list-group-item list-group-item-action" id="list-password-reset-list" data-toggle="list"
+                       href="#list-password-reset" role="tab" aria-controls="settings">修改密码</a>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-10">
                 <div class="tab-content" id="nav-tabContent">
+                    <!-- 我的主页 -->
                     <div class="tab-pane fade show active" id="list-home" role="tabpanel"
                          aria-labelledby="list-home-list">
-                        home
+                        <h2>我的主页</h2>
+                        <div th:if="${#request.getAttribute('uploadedImage') == null}">
+                            <h3>上传图片</h3>
+                            <p>
+                                从本地选择一张需要重建的CT图像，可以是保存为.npy格式的正弦图或者DICOM、jpg格式的稀疏视角重建得到的带有伪影的图像。
+                            </p>
+
+                            <div class="container">
+                                <div class="row justify-content-start">
+                                    <div class="col-10">
+                                        <form action="/image/uploadAndReconstructImage" method="post" enctype="multipart/form-data" id="imgUploadForm">
+<!--                                            <input type="hidden" name="userId" th:value="${session.loginUser.id}">-->
+                                            <label class="form-control-label">选择图片</label>
+                                            <div class="input-group mb-3">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="inputFile"
+                                                           name="file" aria-describedby="inputGroupFileAddon01">
+                                                    <label class="custom-file-label" for="inputFile"></label>
+                                                </div>
+                                            </div>
+                                            <fieldset class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-10">
+                                                        <div>
+                                                            <label class="form-control-label">选择图片类型</label>
+                                                        </div>
+                                                        <div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                       name="sinogram" id="gridRadios1"
+                                                                       value="true"
+                                                                       checked>
+                                                                <label class="form-check-label" for="gridRadios1">
+                                                                    正弦图
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                       name="sinogram" id="gridRadios2"
+                                                                       value="false">
+                                                                <label class="form-check-label" for="gridRadios2">
+                                                                    非正弦图
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div class="row justify-content-center">
+                                                <div class="mt-4 col-4 ">
+                                                    <button type="submit" class="btn btn-block btn-primary">
+                                                        上传图片并重建
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${#request.getAttribute('uploadedImage') != null}">
+                            <h3>重建效果</h3>
+                            <p th:text="${(#request.getAttribute('uploadedImage'))}"></p>
+                        </div>
+
+
                     </div>
+                    <!-- 我的资料 -->
                     <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                         profile
                     </div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                        message
+                    <!-- 上传记录 -->
+                    <div class="tab-pane fade" id="list-records" role="tabpanel" aria-labelledby="list-records-list">
+                        records
                     </div>
+                    <!-- 修改资料 -->
                     <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
                         settings
+                    </div>
+                    <!-- 修改密码 -->
+                    <div class="tab-pane fade" id="list-password-reset" role="tabpanel"
+                         aria-labelledby="list-password-reset-list">
+                        password reset
                     </div>
                 </div>
             </div>
@@ -53,6 +129,7 @@
         e.preventDefault()
         $(this).tab('show')
     })
+    var data = $("#imgUploadForm").serialize()
 </script>
 </body>
 </html>

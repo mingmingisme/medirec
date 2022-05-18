@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 public class SessionUtils {
     public static final String LOGIN_USER = "loginUser";
 
-    public static HttpSession getSession(){
+    public static HttpSession getSession() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getRequest().getSession();
     }
@@ -20,5 +20,9 @@ public class SessionUtils {
 
     public static void removeLoginUserFromSession() {
         getSession().removeAttribute(LOGIN_USER);
+    }
+
+    public static User getLoginUserFromSession() {
+        return (User) getSession().getAttribute(LOGIN_USER);
     }
 }
