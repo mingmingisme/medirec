@@ -31,13 +31,12 @@
                          role="tabpanel">
                         <h2>我的主页</h2>
                         <div th:if="${session.uploadedImage == null}">
-                            <h3>上传图片</h3>
-                            <p>
-                                从本地选择一张需要重建的CT图像，可以是保存为.npy格式的正弦图或者DICOM、jpg格式的稀疏视角重建得到的带有伪影的图像。
-                            </p>
-
                             <div class="container">
                                 <div class="row justify-content-start">
+                                    <h3>上传图片</h3>
+                                    <p>
+                                        从本地选择一张需要重建的CT图像，可以是保存为.npy格式的正弦图或者DICOM、jpg格式的稀疏视角重建得到的带有伪影的图像。
+                                    </p>
                                     <div class="col-10">
                                         <form enctype="multipart/form-data"
                                               id="imgUploadForm" method="post">
@@ -93,17 +92,38 @@
                             </div>
                         </div>
                         <div th:if="${session.uploadedImage != null}">
-                            <h3>重建效果</h3>
-                            <p th:text="${session.uploadedImage}"></p>
                             <div class="container">
+                                <h3>重建效果</h3>
+                                <!--                                <p th:text="${session.uploadedImage}"></p>-->
+                                <hr>
+                                <div class="row justify-content-around">
+                                    <div class="col-5">
+                                        <label>用户名：</label>
+                                        <span th:text="${session.loginUser.username}"></span>
+                                        <hr>
+                                        <label>原图片大小（高 × 宽）：</label>
+                                        <span th:text='${session.uploadedImage.height}'></span>
+                                        ×
+                                        <span th:text='${session.uploadedImage.width}'></span>
+                                    </div>
+                                    <div class="col-5">
+                                        <label>上传图片文件名：</label>
+                                        <span th:text="${session.uploadedImage.fileName}"></span>
+                                        <hr>
+                                        <label>上传时间：</label>
+                                        <span th:text="${session.uploadedImage.uploadTime}"></span>
+                                    </div>
+                                </div>
+                                <hr>
                                 <div class="row justify-content-around">
                                     <div class="col-5">
                                         <h4>输入图片：</h4>
+                                        <p th:if="${session.uploadedImage.sinogram}">输入的是Radon变换得到的正弦图</p>
                                         <img alt="无图片" th:src="${session.uploadedImage.demoUrl}" width="100%">
                                     </div>
                                     <div class="col-5">
                                         <h4>输出图片：</h4>
-                                        <img alt="无图片" th:src="${session.uploadedImage.demoUrl}" width="100%">
+                                        <img alt="无图片" th:src="${session.uploadedImage.outputUrl}" width="100%">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
@@ -123,20 +143,292 @@
                     </div>
                     <!-- 我的资料 -->
                     <div aria-labelledby="list-profile-list" class="tab-pane fade" id="list-profile" role="tabpanel">
-                        profile
+                        <h2>我的资料</h2>
+                        <div class="container">
+                            <div class="row justify-content-center min-vh-100">
+                                <div class="col-md-10 col-lg-8 col-xl-8 py-10 py-md-0">
+                                    <span class="clearfix"></span>
+                                    <form id="originalProfileForm">
+                                        <!-- id -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">用户id</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="user"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="originalId" name="id"
+                                                       readonly th:value="${session.loginUser.id}" type="text">
+                                            </div>
+                                        </div>
+                                        <!-- 用户名 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">用户名</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="user"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="originalUsername" name="username"
+                                                       placeholder="请输入用户名" readonly
+                                                       th:value="${session.loginUser.username}" type="text">
+                                            </div>
+                                        </div>
+                                        <!-- 邮箱 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">邮箱</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="mail"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="originalEmail" name="email"
+                                                       placeholder="请输入邮箱" readonly
+                                                       th:value="${session.loginUser.email}" type="email">
+                                            </div>
+                                        </div>
+                                        <!-- 职业 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">职业</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="briefcase"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="originalOccupation" name="occupation"
+                                                       placeholder="您的职业" readonly
+                                                       th:value="${session.loginUser.occupation}" type="text">
+                                                <!--                                                <select class="custom-select" name="occupation">-->
+                                                <!--                                                    <option selected value=null>请选择您的职业</option>-->
+                                                <!--                                                    <option value="医生">医生</option>-->
+                                                <!--                                                    <option value="开发人员">开发人员</option>-->
+                                                <!--                                                    <option value="其他">其他</option>-->
+                                                <!--                                                </select>-->
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <button class="btn btn-block btn-primary"
+                                                    onclick="$('#list-tab a:nth-child(4)').tab('show')"
+                                                    type="button">
+                                                点击修改
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- 上传记录 -->
                     <div aria-labelledby="list-records-list" class="tab-pane fade" id="list-records" role="tabpanel">
                         records
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- 修改资料 -->
                     <div aria-labelledby="list-settings-list" class="tab-pane fade" id="list-settings" role="tabpanel">
-                        settings
+                        <h2>修改资料</h2>
+                        <div class="container">
+                            <div class="row justify-content-center min-vh-100">
+                                <div class="col-md-10 col-lg-8 col-xl-8 py-10 py-md-0">
+                                    <span class="clearfix"></span>
+                                    <form id="newProfileForm">
+                                        <input type="hidden" name="password" th:value="${session.loginUser.password}">
+                                        <!-- id -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">用户id（不可修改）</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="user"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="changedId" name="id"
+                                                       readonly th:value="${session.loginUser.id}" type="text">
+                                            </div>
+                                        </div>
+                                        <!-- 用户名 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">用户名</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="user"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" id="changedUsername" name="username"
+                                                       placeholder="请输入用户名" th:value="${session.loginUser.username}"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                        <!-- 邮箱 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">邮箱</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="mail"></i>
+                                                    </span>
+                                                </div>
+                                                <input class="form-control" form-group id="changedEmail"
+                                                       name="email" placeholder="请输入邮箱"
+                                                       th:value="${session.loginUser.email}">
+                                            </div>
+                                        </div>
+                                        <!-- 职业 -->
+                                        <div class="form-group">
+                                            <label class="form-control-label">职业</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i data-feather="briefcase"></i>
+                                                    </span>
+                                                </div>
+                                                <!--                                    <input type="text" class="form-control" id="input-occupation"-->
+                                                <!--                                           name="occupation" placeholder="您的职业">-->
+                                                <select class="custom-select" name="occupation">
+                                                    <option th:selected="${session.loginUser.occupation eq 'null'}" value=null>请选择您的职业</option>
+                                                    <option th:selected="${session.loginUser.occupation eq '医生'}" value="医生">医生</option>
+                                                    <option th:selected="${session.loginUser.occupation eq '开发人员'}" value="开发人员">开发人员</option>
+                                                    <option th:selected="${session.loginUser.occupation eq '其他'}" value="其他">其他</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <button class="btn btn-block btn-primary" id="profileChangeButton"
+                                                    type="button">
+                                                提交修改
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- 修改密码 -->
                     <div aria-labelledby="list-password-reset-list" class="tab-pane fade" id="list-password-reset"
                          role="tabpanel">
-                        password reset
+                        <h2>修改密码</h2>
+                        <div class="container">
+                            <div class="row justify-content-center min-vh-100">
+                                <div class="col-md-10 col-lg-8 col-xl-8 py-10 py-md-0">
+                                    <span class="clearfix"></span>
+                                    <form content="" id="resetPasswordForm">
+                                        <input name="id" th:value="${session.loginUser.id}" type="hidden">
+                                        <!-- 原密码 -->
+                                        <div class="form-group mb-0">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <label class="form-control-label">原密码</label>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <a class="small text-muted text-underline--dashed border-primary"
+                                                       data-target="#originalPassword"
+                                                       data-toggle="password-text" href="#">
+                                                        显示密码
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i data-feather="key"></i>
+                                        </span>
+                                                </div>
+                                                <input class="form-control" id="originalPassword"
+                                                       name="originalPassword"
+                                                       placeholder="请输入原密码" type="password">
+                                            </div>
+                                        </div>
+                                        <!-- 新密码 -->
+                                        <div class="form-group mb-0">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <label class="form-control-label">新密码</label>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <a class="small text-muted text-underline--dashed border-primary"
+                                                       data-target="#newPassword"
+                                                       data-toggle="password-text" href="#">
+                                                        显示密码
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i data-feather="key"></i>
+                                        </span>
+                                                </div>
+                                                <input class="form-control" id="newPassword" name="newPassword"
+                                                       placeholder="请输入新密码" type="password">
+                                            </div>
+                                        </div>
+                                        <!-- 确认新密码 -->
+                                        <div class="form-group mb-0">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <label class="form-control-label">确认新密码</label>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <a class="small text-muted text-underline--dashed border-primary"
+                                                       data-target="#confirmNewPassword"
+                                                       data-toggle="password-text" href="#">
+                                                        显示密码
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i data-feather="key"></i>
+                                        </span>
+                                                </div>
+                                                <input class="form-control" id="confirmNewPassword"
+                                                       name="confirmNewPassword"
+                                                       placeholder="请确认新密码" type="password">
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <button class="btn btn-block btn-primary" id="passwordResetButton"
+                                                    type="button">确认修改密码
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,6 +441,7 @@
 <script src="/js/svg-injector.min.js"></script>
 <script src="/js/feather.min.js"></script>
 <script src="/js/quick-website.js"></script>
+<script>feather.replace({width: "1em", height: "1em"})</script>
 <script>
     $('#list-tab a').on('click', function (e) {
         e.preventDefault()
@@ -196,6 +489,75 @@
             data: null,
             success: function (res) {
                 window.location = "/user/home";
+            }
+        })
+    })
+
+    $('#profileChangeButton').on('click', function () {
+        var username = $("#changedUsername").val();
+        if (username.length == 0) {
+            alert('用户名不能为空');
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/user/change/profile",
+            data: $('#newProfileForm').serialize(),
+            success: function (res) {
+                if (res != null) {
+                    alert(res.message);
+                    switch (res.data) {
+                        case 1:
+                            window.location = "/user/home"
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        })
+    })
+
+    $('#passwordResetButton').on('click', function () {
+        var orininalPassword = $('#originalPassword').val();
+        var newPassword = $('#newPassword').val();
+        var confirmNewPassword = $('#confirmNewPassword').val();
+
+        if (orininalPassword.length == 0) {
+            alert('请输入原密码')
+            return false;
+        }
+
+        if (newPassword.length == 0) {
+            alert('请输入新密码')
+            return false;
+        }
+
+        if (confirmNewPassword.length == 0) {
+            alert('请确认新密码')
+            return false;
+        }
+
+        if (newPassword != confirmNewPassword) {
+            alert('两次新密码输入不一致')
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/reset/password",
+            data: $('#resetPasswordForm').serialize(),
+            success: function (res) {
+                if (res != null) {
+                    alert(res.message);
+                    switch (res.data) {
+                        case 1:
+                            window.location = "/login"
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         })
     })

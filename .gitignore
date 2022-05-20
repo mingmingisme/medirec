@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Python & Jupyter ###
+**/.idea
+/reconstruct/result_example/
+/file/
+/reconstruct/result_model/

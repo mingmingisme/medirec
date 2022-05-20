@@ -1,5 +1,6 @@
 package com.medirec.service;
 
+import com.medirec.entity.PasswordResetDTO;
 import com.medirec.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,4 +17,8 @@ public interface UserService extends IService<User> {
     User login(User user);
 
     User register(User user);
+
+    int resetPassword(PasswordResetDTO dto);
+
+    int changeProfile(User user);
 }

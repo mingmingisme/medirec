@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -30,8 +27,16 @@ import java.util.Date;
 @Service
 public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements ImageService {
 
+    // Note that this value annotated by @Value could not be static, or it will return null
     @Value("${file-upload-path}")
     private String imageUploadPath;
+
+    private static final String PYTHON_INTERPRETER_PATH = "F:/Anaconda3/envs/bishe/python.exe";
+
+    private static final String JPG_TO_NET_SCRIPT_PATH = "./reconstruct/jpg_to_net.py";
+    private static final String NPY_SINO_TO_NET_SCRIPT_PATH = "./reconstruct/npy_sino_to_net.py";
+
+    private static final String MODEL_PARAM_PATH = "./reconstruct/result_model/FbpConvNet_norm.pkl";
 
     private static final String INPUT_IMAGE_APPENDIX = "_input";
     private static final String DEMO_IMAGE_APPENDIX = "_demo";
@@ -45,17 +50,15 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
     public Image uploadAndReconstruct(MultipartFile file, User loginUser, Boolean sinogram) throws IOException {
         System.out.println(file);
         System.out.println(loginUser);
-        System.out.println("is sinogram? : " + sinogram);
+//        System.out.println("is sinogram? : " + sinogram);
         Image uploadedImage = storeImage(file, loginUser, sinogram, Paths.get(imageUploadPath, loginUser.getUsername()).toString());
         int[] heightAndWidth = getHeightAndWidth(uploadedImage);
         uploadedImage.setHeight(heightAndWidth[0]);
         uploadedImage.setWidth(heightAndWidth[1]);
-        return uploadedImage;
-    }
 
-    private int[] getHeightAndWidth(Image image) {
-        int[] heightAndWidth = new int[]{512, 512};
-        return heightAndWidth;
+        reconstructImage(uploadedImage);
+
+        return uploadedImage;
     }
 
     private Image storeImage(MultipartFile file, User loginUser, Boolean sinogram, String imageParentUploadPath) throws IOException {
@@ -78,21 +81,13 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
 
         boolean isInputUploaded = saveFile(file, inputImagePath);
         boolean isDemoUploaded = false;
-        System.out.println("****suffix is: " + suffix);
-        System.out.print("is suffix == '.jpg': ");
-        System.out.println(suffix == ".jpg");
-        System.out.print("suffix.equal('.jpg'): ");
-        System.out.println(suffix.equals(".jpg"));
 
-        System.out.println("suffix length: " + suffix.length());
-        System.out.println("'.jpg' length: " + ".jpg".length());
-        if(suffix.equals(".jpg")) {
+        if (suffix.equals(".jpg")) {
             isDemoUploaded = saveFile(file, demoImagePath);
             System.out.println("**Demo image has" + (isDemoUploaded ? " " : " not ") + "been saved...");
         } else if (suffix.equals(".npy")) {
-            isDemoUploaded =false;
+            isDemoUploaded = false;
         }
-        System.out.println("**Demo image has" + (isDemoUploaded ? " " : " not ") + "been saved...");
 
 
 //        System.out.println("inputRelativePath: " + inputRelativePath);
@@ -105,6 +100,90 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
         Image image = new Image(userId, fileName, sinogram, suffix, inputUrl, demoUrl, outputUrl, localDateTime);
 
         return image;
+    }
+
+    private void reconstructImage(Image uploadedImage) {
+        String suffix = uploadedImage.getSuffix();
+        boolean isSino = uploadedImage.getSinogram();
+        String inputUrl = uploadedImage.getInputUrl();
+        String demoUrl = uploadedImage.getDemoUrl();
+        String outputUrl = uploadedImage.getOutputUrl();
+        if (suffix.equalsIgnoreCase(".npy")) {
+            if (isSino) {
+                System.out.println("Ready to reconstruct a sino npy...");
+                reconstructSinoNpy(inputUrl, demoUrl, outputUrl);
+            } else {
+                System.out.println("Ready to reconstruct a non-sino npy...");
+                reconstructNpy(inputUrl, outputUrl);
+            }
+
+        } else if (suffix.equalsIgnoreCase(".jpg")) {
+            if (isSino) {
+                System.out.println("Ready to reconstruct a sino jpg...");
+                reconstructSinoJpg(inputUrl, outputUrl);
+            } else {
+                System.out.println("Ready to reconstruct a non-sino jpg...");
+                reconstructJpg(inputUrl, outputUrl);
+            }
+        } else if(suffix.equalsIgnoreCase(".dcm") || suffix.equalsIgnoreCase(".dcm")) {
+
+        }
+    }
+
+    private void reconstructSinoNpy(String inputUrl, String demoUrl, String outputUrl) {
+        String inputRelativePath = imageUploadPath + inputUrl;
+        String demoRelativePath = imageUploadPath + demoUrl;
+        String outputRelativePath = imageUploadPath + outputUrl;
+
+        String command = String.format(PYTHON_INTERPRETER_PATH +
+                " " + NPY_SINO_TO_NET_SCRIPT_PATH +
+                " " + inputRelativePath +
+                " " + demoRelativePath +
+                " " + outputRelativePath +
+                " " + MODEL_PARAM_PATH);
+
+        executePythonScripts(command);
+    }
+
+    private void reconstructNpy(String inputUrl, String outputUrl) {
+        return;
+    }
+
+    private void reconstructSinoJpg(String inputUrl, String outputUrl) {
+
+    }
+
+    private void reconstructJpg(String inputUrl, String outputUrl) {
+        String inputRelativePath = imageUploadPath + inputUrl;
+        String outputRelativePath = imageUploadPath + outputUrl;
+
+        String command = String.format(PYTHON_INTERPRETER_PATH +
+                " " + JPG_TO_NET_SCRIPT_PATH +
+                " " + inputRelativePath +
+                " " + outputRelativePath +
+                " " + MODEL_PARAM_PATH);
+
+        executePythonScripts(command);
+
+    }
+
+    private void executePythonScripts(String command) {
+        Process proc;
+        try {
+            proc = Runtime.getRuntime().exec(command);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean saveFile(MultipartFile file, String pathToUpload) throws IOException {
@@ -129,6 +208,14 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
             }
             return false;
         }
+    }
+
+    private int[] getHeightAndWidth(Image image) {
+        int[] heightAndWidth = new int[]{512, 512};
+        if (image.getSinogram()) {
+            heightAndWidth[0] = 128;
+        }
+        return heightAndWidth;
     }
 
     private String getRelativePath(String dateTime, String APPENDIX, String suffix) {

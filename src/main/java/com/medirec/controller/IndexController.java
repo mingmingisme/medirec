@@ -1,5 +1,6 @@
 package com.medirec.controller;
 
+import com.medirec.utils.SessionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,7 +16,12 @@ public class IndexController {
 
     @RequestMapping("/login")
     public String login() {
-        return "login";
+        if (SessionUtils.getLoginUserFromSession() == null) {
+            return "login";
+        } else {
+            return "userhome";
+        }
+
     }
 
     @RequestMapping("/register")
