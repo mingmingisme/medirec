@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class IndexController {
+
     @RequestMapping({"/", "/index"})
     public String index() {
         return "index";
@@ -21,11 +22,25 @@ public class IndexController {
         } else {
             return "userhome";
         }
-
     }
 
     @RequestMapping("/register")
     public String register() {
         return "register";
+    }
+
+    @RequestMapping("/function")
+    public String function() {
+        return "function";
+    }
+
+    @RequestMapping("/algorithm")
+    public String algorithm() {
+        return "algorithm";
+    }
+
+    @RequestMapping("/demonstration")
+    public String demonstration() {
+        return "demonstration";
     }
 }
