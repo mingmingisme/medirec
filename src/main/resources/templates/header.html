@@ -54,15 +54,16 @@
             }, 300)
         })
     </script>
-    <link rel="icon" href="/picture/favicon.png" type="image/png">
+    <link rel="icon" href="/picture/medirec_icon.png" type="image/png">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/quick-website.css" id="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white" th:fragment="nav-fragment">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img alt="Image placeholder" src="/picture/dark.svg" id="navbar-logo">
+            <img alt="Image placeholder" src="/picture/medirec.png" id="navbar-logo">
         </a>
         <button class="navbar-toggler" type="button"
                 data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -72,17 +73,18 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mt-4 mt-lg-0 ml-auto">
                 <li class="nav-item"><a class="nav-link" href="">功能介绍</a></li>
-                <li class="nav-item dropdown dropdown-animate" data-toggle="hover">
-                    <a class="nav-link" href="#" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">算法简介</a>
-                    <div class="dropdown-menu dropdown-menu-single">
-                        <a href="" class="dropdown-item">Homepage</a>
-                        <a href="about.html" class="dropdown-item">About us</a>
-                        <a href="contact.html" class="dropdown-item">Contact</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login.html" class="dropdown-item">Login</a>
-                    </div>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="">算法简介</a></li>
+<!--                <li class="nav-item dropdown dropdown-animate" data-toggle="hover">-->
+<!--                    <a class="nav-link" href="#" role="button" data-toggle="dropdown"-->
+<!--                       aria-haspopup="true" aria-expanded="false">算法简介</a>-->
+<!--                    <div class="dropdown-menu dropdown-menu-single">-->
+<!--                        <a href="" class="dropdown-item">Homepage</a>-->
+<!--                        <a href="about.html" class="dropdown-item">About us</a>-->
+<!--                        <a href="contact.html" class="dropdown-item">Contact</a>-->
+<!--                        <div class="dropdown-divider"></div>-->
+<!--                        <a href="login.html" class="dropdown-item">Login</a>-->
+<!--                    </div>-->
+<!--                </li>-->
                 <li class="nav-item"><a class="nav-link" href="">使用说明</a></li>
             </ul>
             <div th:if="${session.loginUser == null}">

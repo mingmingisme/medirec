@@ -4,15 +4,35 @@
     <title>MediRec | 登录</title>
 </head>
 <body>
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-cookies" data-backdrop="false"
-     aria-labelledby="modal-cookies" aria-hidden="true">
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img alt="Image placeholder" id="navbar-logo" src="/picture/medirec.png">
+        </a>
+        <button aria-controls="navbarCollapse" aria-expanded="false"
+                aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarCollapse"
+                data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mt-4 mt-lg-0 ml-auto">
+                <li class="nav-item"><a class="nav-link" href="">功能介绍</a></li>
+                <li class="nav-item"><a class="nav-link" href="">算法简介</a></li>
+                <li class="nav-item"><a class="nav-link" href="">使用说明</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div aria-hidden="true" aria-labelledby="modal-cookies" class="modal fade" data-backdrop="false" id="modal-cookies"
+     role="dialog" tabindex="-1">
     <div class="modal-dialog modal-dialog-aside left-4 right-4 bottom-4">
         <div class="modal-content bg-dark-dark">
             <div class="modal-body">
                 <p class="text-sm text-white mb-3">We use cookies so that this platform works for you.
                     By using our website, you agree to our use of cookies.</p>
-                <a href="javascript:;" class="btn btn-sm btn-white" target="_blank">Learn more</a>
-                <button type="button" class="btn btn-sm btn-primary mr-2" data-dismiss="modal">OK</button>
+                <a class="btn btn-sm btn-white" href="javascript:;" target="_blank">Learn more</a>
+                <button class="btn btn-sm btn-primary mr-2" data-dismiss="modal" type="button">OK</button>
             </div>
         </div>
     </div>
@@ -37,8 +57,8 @@
                                             <i data-feather="user"></i>
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control" id="input-username"
-                                           name="username" placeholder="请输入用户名">
+                                    <input class="form-control" id="input-username" name="username"
+                                           placeholder="请输入用户名" type="text">
                                 </div>
                             </div>
                             <div class="form-group mb-0">
@@ -47,8 +67,8 @@
                                         <label class="form-control-label">密码</label>
                                     </div>
                                     <div class="mb-2">
-                                        <a href="#" class="small text-muted text-underline--dashed border-primary"
-                                           data-toggle="password-text" data-target="#input-password">
+                                        <a class="small text-muted text-underline--dashed border-primary" data-target="#input-password"
+                                           data-toggle="password-text" href="#">
                                             显示密码
                                         </a>
                                     </div>
@@ -59,17 +79,17 @@
                                             <i data-feather="key"></i>
                                         </span>
                                     </div>
-                                    <input type="password" class="form-control" id="input-password"
-                                           name="password" placeholder="请输入密码">
+                                    <input class="form-control" id="input-password" name="password"
+                                           placeholder="请输入密码" type="password">
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <button type="button" class="btn btn-block btn-primary" onclick="login()">立即登录</button>
+                                <button class="btn btn-block btn-primary" onclick="login()" type="button">立即登录</button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer px-md-5"><small>没有注册？</small>
-                        <a href="/register" class="small font-weight-bold">
+                        <a class="small font-weight-bold" href="/register">
                             创建用户
                         </a>
                     </div>

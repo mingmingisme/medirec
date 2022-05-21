@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="header::head-fragment(~{::title})">
     <title>MediRec | 首页</title>
@@ -9,15 +9,15 @@
 <div class="preloader">
     <div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>
 </div>
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-cookies" data-backdrop="false"
-     aria-labelledby="modal-cookies" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="modal-cookies" class="modal fade" data-backdrop="false" id="modal-cookies"
+     role="dialog" tabindex="-1">
     <div class="modal-dialog modal-dialog-aside left-4 right-4 bottom-4">
         <div class="modal-content bg-dark-dark">
             <div class="modal-body">
                 <p class="text-sm text-white mb-3">We use cookies so that our platform works for you.
                     By using our website, you agree to our use of cookies.</p>
-                <a href="javascript:;" class="btn btn-sm btn-white" target="_blank">Learn more</a>
-                <button type="button" class="btn btn-sm btn-primary mr-2" data-dismiss="modal">
+                <a class="btn btn-sm btn-white" href="javascript:;" target="_blank">Learn more</a>
+                <button class="btn btn-sm btn-primary mr-2" data-dismiss="modal" type="button">
                     OK
                 </button>
             </div>
@@ -27,32 +27,42 @@
 
 <nav th:replace="header::nav-fragment"></nav>
 
-<section class="slice py-7">
+<section class="slice py-5">
     <div class="container">
         <div class="row row-grid align-items-center">
             <div class="col-12 col-md-5 col-lg-6 order-md-2 text-center">
                 <figure class="w-100">
-<!--                    <img alt="Image placeholder" src="/picture/illustration-3.svg" class="img-fluid mw-md-120">-->
-                    <img alt="首页示例图" src="/picture/index_demo.jpg" class="img-fluid mw-md-120">
+                    <!--                    <img alt="Image placeholder" src="/picture/illustration-3.svg" class="img-fluid mw-md-120">-->
+                    <img alt="首页示例图" class="img-fluid mw-md-120" src="/picture/index_demo.png">
                 </figure>
+                <p class="lead text-sm-center text-muted" style="font-size: smaller">
+                    图 a：正弦图&nbsp;&nbsp;&nbsp;&nbsp;图 b：灰度图<br>
+                    图 c：输出图像&nbsp;&nbsp;&nbsp;&nbsp;图 d：原图
+                </p>
             </div>
             <div class="col-12 col-md-7 col-lg-6 order-md-1 pr-md-5">
                 <h1 class="display-4 text-center text-md-left mb-3">
-<!--                    It's time to amplify your <strong class="text-primary">online business</strong>-->
-                    基于
-                    <stong class="text-primary">FBPConvNet</stong>
-                    重建CT图像
+                    基于<stong class="text-primary"><i>FBPConvNet</i></stong>
+
                 </h1>
-                <p class="lead text-center text-md-left text-muted">
-<!--                    Build a beautiful, modern website with flexible Bootstrap components built from scratch.-->
-                    图像重建后的伪影和模糊会减少，在本站只需上传图片即可完成图像的重建~
+                <h1 class="display-4 text-center text-md-right mb-3">
+                    重建 CT 图像
+                </h1>
+                <br><br><br>
+                <p class="lead text-center text-md-left text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    在 <strong class="text-highlight-primary">MediRec</strong> 输入一张sparse-view重建出的CT图像，
+                    可以得到一张更加清晰的图像，伪影和模糊明显减少，接近full-view重建出的CT图像。
+                </p>
+
+                <p class="lead text-center text-md-left text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    登录后可使用 <strong class="text-highlight-primary">MediRec</strong> 的功能。接下来你可以：
                 </p>
                 <div class="text-center text-md-left mt-5">
-                    <a href="/user/home" class="btn btn-primary btn-icon">
+                    <a class="btn btn-primary btn-icon" href="/user/home">
                         <span class="btn-inner--text">立即开始</span>
                         <span class="btn-inner--icon"><i data-feather="chevron-right"></i></span>
                     </a>
-                    <a href="javascript:;" class="btn btn-neutral btn-icon d-none d-lg-inline-block">
+                    <a class="btn btn-neutral btn-icon d-none d-lg-inline-block" href="javascript:;">
                         查看示例
                     </a>
                 </div>

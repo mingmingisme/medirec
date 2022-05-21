@@ -7,7 +7,7 @@
 
 <nav th:replace="header::nav-fragment"></nav>
 
-<section class="slice py-7">
+<section class="slice py-5">
     <div class="container">
         <div class="row min-vh-100">
             <div class="col-2">
@@ -119,11 +119,11 @@
                                     <div class="col-5">
                                         <h4>输入图片：</h4>
                                         <p th:if="${session.uploadedImage.sinogram}">输入的是Radon变换得到的正弦图</p>
-                                        <img alt="无图片" th:src="${session.uploadedImage.demoUrl}" width="100%">
+                                        <img alt="输入图片无法显示" th:src="${session.uploadedImage.demoUrl}" width="100%">
                                     </div>
                                     <div class="col-5">
                                         <h4>输出图片：</h4>
-                                        <img alt="无图片" th:src="${session.uploadedImage.outputUrl}" width="100%">
+                                        <img alt="输出图片无法显示" th:src="${session.uploadedImage.outputUrl}" width="100%">
                                     </div>
                                 </div>
                                 <div class="row justify-content-center">
@@ -224,37 +224,8 @@
                     </div>
                     <!-- 上传记录 -->
                     <div aria-labelledby="list-records-list" class="tab-pane fade" id="list-records" role="tabpanel">
-                        records
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h2>上传记录</h2>
+                        <table class="table table-hover table-striped" id="uploadRecordTable"></table>
                     </div>
                     <!-- 修改资料 -->
                     <div aria-labelledby="list-settings-list" class="tab-pane fade" id="list-settings" role="tabpanel">
@@ -264,7 +235,7 @@
                                 <div class="col-md-10 col-lg-8 col-xl-8 py-10 py-md-0">
                                     <span class="clearfix"></span>
                                     <form id="newProfileForm">
-                                        <input type="hidden" name="password" th:value="${session.loginUser.password}">
+                                        <input name="password" th:value="${session.loginUser.password}" type="hidden">
                                         <!-- id -->
                                         <div class="form-group">
                                             <label class="form-control-label">用户id（不可修改）</label>
@@ -318,10 +289,18 @@
                                                 <!--                                    <input type="text" class="form-control" id="input-occupation"-->
                                                 <!--                                           name="occupation" placeholder="您的职业">-->
                                                 <select class="custom-select" name="occupation">
-                                                    <option th:selected="${session.loginUser.occupation eq 'null'}" value=null>请选择您的职业</option>
-                                                    <option th:selected="${session.loginUser.occupation eq '医生'}" value="医生">医生</option>
-                                                    <option th:selected="${session.loginUser.occupation eq '开发人员'}" value="开发人员">开发人员</option>
-                                                    <option th:selected="${session.loginUser.occupation eq '其他'}" value="其他">其他</option>
+                                                    <option th:selected="${session.loginUser.occupation eq 'null'}"
+                                                            value=null>请选择您的职业
+                                                    </option>
+                                                    <option th:selected="${session.loginUser.occupation eq '医生'}"
+                                                            value="医生">医生
+                                                    </option>
+                                                    <option th:selected="${session.loginUser.occupation eq '开发人员'}"
+                                                            value="开发人员">开发人员
+                                                    </option>
+                                                    <option th:selected="${session.loginUser.occupation eq '其他'}"
+                                                            value="其他">其他
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -441,6 +420,8 @@
 <script src="/js/svg-injector.min.js"></script>
 <script src="/js/feather.min.js"></script>
 <script src="/js/quick-website.js"></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
 <script>feather.replace({width: "1em", height: "1em"})</script>
 <script>
     $('#list-tab a').on('click', function (e) {
@@ -560,6 +541,104 @@
                 }
             }
         })
+    })
+
+    $('#uploadRecordTable').bootstrapTable({
+        method: 'get',
+        url: "/image/records",
+
+        detailView: 'true',
+        detailFormatter: function (index, row, element) {
+            var html = [];
+            // $.each(row, function (key, value) {
+            //     html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+            // })
+            html.push('<div class="container">');
+            html.push('     <div class="row justify-content-around">');
+            html.push('         <div class="col-5">');
+            html.push('             <h6>输入图片</h6>');
+            if (row['sinogram'] == true)
+                html.push('<p>输入的是Radon变换得到的正弦图</p>');
+            html.push('<img alt="输入图片无法显示" src="' + row['demoUrl'] + '" width="100%">');
+            html.push('         </div>');
+            html.push('         <div class="col-5">');
+            html.push('             <h6>输入图片</h6>');
+            html.push('<img alt="输出图片无法显示" src="' + row['outputUrl'] + '" width="100%">');
+            html.push('         </div>');
+            html.push('     </div>')
+            html.push('</div>')
+
+            return html.join('');
+        },
+        iconSize: 'sm',
+
+        striped: true,
+        pageNumber: 1,
+        pagination: true,
+        sidePagination: 'client',
+        pageSize: 5, // 单页记录数
+        pageList: [5, 10, 20],
+        paginationLoop: false,
+        search: true,
+        searchAlign: 'left',
+        searchHighlight: 'true',
+        searchOnEnterKey: 'true',
+
+        showColumns: 'true',
+        showSearchButton: 'true',
+        showSearchClearButton: 'true',
+
+        sortReset: 'true',
+        sortStable: 'true',
+
+        columns: [{
+            title: '上传文件名',
+            field: 'fileName',
+            sortable: 'true'
+        }, {
+            title: '图片类型',
+            field: 'sinogram',
+            formatter: function (value, row, index) {
+                return value ? '正弦图' : '非正弦图';
+            }
+        }, {
+            title: '上传文件类型',
+            field: 'suffix'
+        }, {
+            title: '图像高度',
+            field: 'height'
+        }, {
+            title: '图像宽度',
+            field: 'width'
+        }, {
+            title: '输入图像',
+            field: 'demoUrl',
+            formatter: function (value, row, index) {
+                value = value.substr(0, 1) === '.' ? value.substr(1, value.length - 1) : value;
+                var html = '';
+                html += '<img src="' + value +
+                    '" width="100%">'
+                return html;
+            }
+        }, {
+            title: '输出图像',
+            field: 'outputUrl',
+            formatter: function (value, row, index) {
+                value = value.substr(0, 1) === '.' ? value.substr(1, value.length - 1) : value;
+                var html = '';
+                html += '<img src="' + value +
+                    '" width="100%">'
+                return html;
+            }
+        }, {
+            title: '上传时间',
+            field: 'uploadTime',
+            sortable: 'true'
+        }, {
+            title: '',
+            field: ''
+        }
+        ]
     })
 </script>
 </body>
