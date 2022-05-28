@@ -48,6 +48,9 @@ public class UserController {
 
     @RequestMapping("/home")
     public String redirectToUserHome() {
+        if (SessionUtils.getLoginUserFromSession() == null) {
+            return "redirect:/login";
+        }
         return "userhome";
     }
 
