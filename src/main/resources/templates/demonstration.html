@@ -6,25 +6,26 @@
 <body>
 <nav th:replace="header::nav-fragment"></nav>
 
-<section class="slice slice-lg bg-section-dark pt-5 pt-lg-8">
+<section class="slice slice-lg bg-section-light pt-5 pt-lg-8">
     <div class="shape-container shape-line shape-position-top shape-orientation-inverse">
         <svg class=""
              height="100px" preserveaspectratio="none" style="enable-background:new 0 0 2560 100"
              viewbox="0 0 2560 100" width="2560px" x="0px" xml:space="preserve"
              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
-                <polygon points="2560 0 2560 100 0 100"></polygon>
-            </svg>
+            <polygon points="2560 0 2560 100 0 100"></polygon>
+        </svg>
     </div>
     <div class="container position-relative zindex-100">
         <div class="col">
             <div class="row justify-content-center">
                 <div class="col-md-10 text-center">
                     <div class="mt-4 mb-6">
-                        <h2 class="h1 text-white">Are you ready to grow faster?</h2>
-                        <h4 class="text-white mt-3">Create your own experience</h4><a
-                            class="btn btn-primary btn-icon mt-4"
-                            href="#">Learn
-                        more</a>
+                        <h2 class="h1">准备好使用 <strong class="text-highlight-primary">MediRec</strong> 了吗？</h2>
+                        <h4 class="mt-3">按照下面的流程开始~</h4>
+                        <h5 class="mt-3">或者</h5>
+                        <a class="btn btn-primary btn-icon mt-4" href="/user/home">
+                            跳过流程立即开始
+                        </a>
                     </div>
                 </div>
             </div>
@@ -34,70 +35,51 @@
 <section class="slice pt-0">
     <div class="container position-relative zindex-100">
         <div class="row">
-            <div class="col-xl-4 col-sm-6 mt-n7">
-                <div class="card">
-                    <div class="d-flex p-5">
-                        <div><span class="badge badge-warning badge-pill">New</span></div>
-                        <div class="pl-4">
-                            <h5 class="lh-130">Listen to the nature</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- 1 登录 -->
             <div class="col-xl-4 col-sm-6 mt-sm-n7">
                 <div class="card">
                     <div class="d-flex p-5">
-                        <div><span class="badge badge-success badge-pill">Tips</span></div>
+                        <div><span class="badge badge-success badge-pill">1</span></div>
                         <div class="pl-4">
-                            <h5 class="lh-130">Rules not to follow</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
+                            <h5 class="lh-130">注册</h5>
+                            <p class="text-muted mb-0">
+                                进入<a href="/register"><strong>>> 注册页面</strong></a>，
+                                输入用户名、邮箱、职业等信息，并确认登录密码，即可成为
+                                <strong class="text-highlight-primary">MediRec</strong>
+                                的用户~
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-12 col-sm-6 mt-xl-n7">
+            <!-- 2 注册 -->
+            <div class="col-xl-4 col-sm-6 mt-sm-n7">
                 <div class="card">
                     <div class="d-flex p-5">
-                        <div><span class="badge badge-danger badge-pill">Update</span></div>
-                        <div class="pl-3">
-                            <h5 class="lh-130">Beware the water</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-4 col-sm-6">
-                <div class="card">
-                    <div class="d-flex p-5">
-                        <div><span class="badge badge-warning badge-pill">New</span></div>
+                        <div><span class="badge badge-success badge-pill">2</span></div>
                         <div class="pl-4">
-                            <h5 class="lh-130">Listen to the nature</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
+                            <h5 class="lh-130">登录</h5>
+                            <p class="text-muted mb-0">
+                                进入<a href="/login"><strong>>> 登录页面</strong></a>，
+                                输入刚刚注册的用户名和密码，即可进入
+                                <strong class="text-highlight-primary">MediRec</strong>
+                                的用户主页~
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-sm-6">
+            <!-- 3 开始重建 -->
+            <div class="col-xl-4 col-sm-6 mt-sm-n7">
                 <div class="card">
                     <div class="d-flex p-5">
-                        <div><span class="badge badge-success badge-pill">Tips</span></div>
+                        <div><span class="badge badge-success badge-pill">3</span></div>
                         <div class="pl-4">
-                            <h5 class="lh-130">Rules not to follow</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-12 col-sm-6">
-                <div class="card">
-                    <div class="d-flex p-5">
-                        <div><span class="badge badge-danger badge-pill">Update</span></div>
-                        <div class="pl-3">
-                            <h5 class="lh-130">Beware the water</h5>
-                            <p class="text-muted mb-0">Design made simple with a clean and smart HTML markup.</p>
+                            <h5 class="lh-130">开始重建</h5>
+                            <p class="text-muted mb-0">
+                                进入<a href="/user/home"><strong>>> 用户主页</strong></a>，
+                                上传一张待重建的图像，点击“上传图像并重建”，稍等片刻即可查看重建结果~
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -108,136 +90,118 @@
 <section class="slice slice-lg">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6"><span class="badge badge-primary badge-pill">Key features</span>
-                <h5 class="lh-180 mt-4 mb-6">Quick is a premium HTML template that includes adaptable components and
-                    pages for various industries, plus new ones each month.</h5>
+            <div class="col-lg-6"><span class="badge badge-primary badge-pill">实例演示</span>
+                <h5 class="lh-180 mt-4 mb-6">
+                    通过实例演示上述使用流程。
+                </h5>
             </div>
         </div>
-        <div class="row mx-lg-n4">
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-warning text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">100% Responsive</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
+        <!-- 注册demo -->
+        <div class="py-6">
+            <div class="row row-grid justify-content-between align-items-center">
+                <div class="col-lg-5 order-lg-2">
+                    <h5 class="h3">注册</h5>
+                    <p class="lead my-4">
+                        在如左图界面输入用户名、邮箱、职业，并确认密码，点击注册。
+                    </p>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-primary text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">Based on Bootstrap 4</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-danger text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">Built with SASS</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-success text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">300+ components</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-info text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">23+ widgets</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div class="icon icon-shape rounded-circle bg-warning text-white mr-4"><i
-                                    data-feather="check"></i></div>
-                        </div>
-                        <div><span class="h6">Bootstrap Flexbox Grid</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div>
-                                <div class="icon icon-shape rounded-circle bg-info text-white mr-4"><i
-                                        data-feather="check"></i></div>
-                            </div>
-                        </div>
-                        <div><span class="h6">Animate CSS</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div>
-                                <div class="icon icon-shape rounded-circle bg-danger text-white mr-4"><i
-                                        data-feather="check"></i></div>
-                            </div>
-                        </div>
-                        <div><span class="h6">Integrated plugins</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 px-lg-4">
-                <div class="card shadow-none">
-                    <div class="p-3 d-flex">
-                        <div>
-                            <div>
-                                <div class="icon icon-shape rounded-circle bg-primary text-white mr-4"><i
-                                        data-feather="check"></i></div>
-                            </div>
-                        </div>
-                        <div><span class="h6">Smart HTML markup</span>
-                            <p class="text-sm text-muted mb-0">Built to be customized.</p>
+                <div class="col-lg-7 order-lg-1">
+                    <div class="card mb-0 mr-lg-5">
+                        <div class="card-body p-2">
+                            <img alt="Image placeholder"
+                                 class="img-fluid shadow rounded" src="/picture/register_page_demo.jpg">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 登录demo -->
+        <div class="py-6">
+            <div class="row row-grid justify-content-between align-items-center">
+                <div class="col-lg-5">
+                    <h5 class="h3">登录</h5>
+                    <p class="lead my-4">
+                        在如右图界面输入用户名和密码，点击登录。
+                    </p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card mb-0 mr-lg-5">
+                        <div class="card-body p-2">
+                            <img alt="Image placeholder"
+                                 class="img-fluid shadow rounded" src="/picture/login_page_demo.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 用户主页-上传图片模块demo -->
+        <div class="py-6">
+            <div class="row row-grid justify-content-between align-items-center">
+                <div class="col-lg-5 order-lg-2">
+                    <h5 class="h3">用户主页 - 上传图片</h5>
+                    <p class="lead my-4">
+                        在如左图界面选择待重建的图像文件并上传。
+                    </p>
+                </div>
+                <div class="col-lg-7 order-lg-1">
+                    <div class="card mb-0 mr-lg-5">
+                        <div class="card-body p-2">
+                            <img alt="Image placeholder"
+                                 class="img-fluid shadow rounded" src="/picture/image_upload_demo.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 用户主页-查看重建结果demo -->
+        <div class="py-6">
+            <div class="row row-grid justify-content-between align-items-center">
+                <div class="col-lg-5">
+                    <h5 class="h3">用户主页 - 查看重建结果</h5>
+                    <p class="lead my-4">
+                       如右图所示，即为上传图像的重建结果与上传图像的对比效果。
+                    </p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card mb-0 mr-lg-5">
+                        <div class="card-body p-2">
+                            <img alt="Image placeholder"
+                                 class="img-fluid shadow rounded" src="/picture/image_output_demo.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 用户主页-上传图片模块demo -->
+        <div class="py-6">
+            <div class="row row-grid justify-content-between align-items-center">
+                <div class="col-lg-5 order-lg-2">
+                    <h5 class="h3">用户主页 - 上传记录</h5>
+                    <p class="lead my-4">
+                        如左图所示，可以查看上传图像的重建记录，每一条记录都可以站看查看大图。
+                    </p>
+                </div>
+                <div class="col-lg-7 order-lg-1">
+                    <div class="card mb-0 mr-lg-5">
+                        <div class="card-body p-2">
+                            <img alt="Image placeholder"
+                                 class="img-fluid shadow rounded" src="/picture/upload_record_demo.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 justify-content-center text-center">
+            <div class="col-lg-6">
+                <h2 class="mt-4">已经了解了使用流程？</h2>
+                <a href="/user/home">
+                    <span class="badge badge-soft-success badge-pill badge-lg">立即开始</span>
+                </a>
+
+            </div>
+        </div>
+
     </div>
 </section>
 
