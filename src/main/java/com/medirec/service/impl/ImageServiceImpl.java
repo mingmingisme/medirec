@@ -35,6 +35,7 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
 
     private static final String JPG_TO_NET_SCRIPT_PATH = "./reconstruct/jpg_to_net.py";
     private static final String NPY_SINO_TO_NET_SCRIPT_PATH = "./reconstruct/npy_sino_to_net.py";
+    private static final String JPG_SINO_TO_NET_SCRIPT_PATH = "./reconstruct/jpg_sino_to_net.py";
 
     private static final String MODEL_PARAM_PATH = "./reconstruct/result_model/FbpConvNet_norm.pkl";
 
@@ -150,7 +151,16 @@ public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements
     }
 
     private void reconstructSinoJpg(String inputUrl, String outputUrl) {
+        String inputRelativePath = imageUploadPath + inputUrl;
+        String outputRelativePath = imageUploadPath + outputUrl;
 
+        String command = String.format(PYTHON_INTERPRETER_PATH +
+                " " + JPG_SINO_TO_NET_SCRIPT_PATH +
+                " " + inputRelativePath +
+                " " + outputRelativePath +
+                " " + MODEL_PARAM_PATH);
+
+        executePythonScripts(command);
     }
 
     private void reconstructJpg(String inputUrl, String outputUrl) {

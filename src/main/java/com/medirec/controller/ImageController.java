@@ -63,8 +63,7 @@ public class ImageController {
     @RequestMapping(value = "/uploadAndReconstructImage", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse uploadAndReconstructImage(MultipartFile file,
-                                                  Boolean sinogram,
-                                                  HttpServletRequest request) throws IOException {
+                                                  Boolean sinogram) throws IOException {
         User loginUser = SessionUtils.getLoginUserFromSession();
         System.out.println(loginUser);
         Image uploadedImage = null;

@@ -431,6 +431,10 @@
     // var data = $("#imgUploadForm").serialize()
 
     $('#uploadButton').on('click', function () {
+        // $('#uploadButton').button('loading');
+        // $('#uploadButton').button('reset');
+        $(this).attr('disabled', true);
+        $(this).html("正在上传并重建...");
         // var formData = new FormData($('#imgUploadForm'));
         var files = $('#inputFile').prop('files');
         var sinogram;
@@ -440,6 +444,11 @@
                 sinogram = obj[i].value;
                 break;
             }
+        }
+
+        if(files.length < 1) {
+            alert("请选择文件！");
+            return;
         }
 
         var formData = new FormData();
