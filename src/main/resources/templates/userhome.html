@@ -446,7 +446,7 @@
             }
         }
 
-        if(files.length < 1) {
+        if (files.length < 1) {
             alert("请选择文件！");
             return;
         }
@@ -644,11 +644,41 @@
             field: 'uploadTime',
             sortable: 'true'
         }, {
-            title: '',
-            field: ''
+            title: '操作',
+            field: '',
+            formatter: function (value, row, index) {
+                var html = '';
+                console.log(row.id);
+                html += '<a href="javascript:;" onclick="deleteRecord(' + '\'' + row['id'] + '\'' + ')">' +
+                    '<span class="badge badge-soft-danger badge-pill">删除</span>' +
+                    '</a>'
+                return html;
+            }
         }
         ]
     })
+
+    function deleteRecord(id) {
+        // alert(id);
+        var conf = confirm('确认删除这条记录吗？');
+        if (conf) {
+            $.ajax({
+                type: "DELETE",
+                url: "/image/" + id,
+                success: function (res) {
+                    // alert(res.status);
+                    if (res.status) {
+                        alert("删除成功！");
+                    } else {
+                        alert("删除失败...");
+                    }
+                    $('#uploadRecordTable').bootstrapTable('refresh');
+                }
+
+            });
+        }
+
+    }
 </script>
 </body>
 </html>

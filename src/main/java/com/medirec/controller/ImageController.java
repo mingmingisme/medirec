@@ -2,6 +2,7 @@ package com.medirec.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.medirec.entity.Image;
+import com.medirec.entity.ImageDTO;
 import com.medirec.entity.User;
 import com.medirec.service.ImageService;
 import com.medirec.utils.JsonResponse;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -94,12 +96,19 @@ public class ImageController {
 
     @RequestMapping("/records")
     @ResponseBody
-    public List<Image> getUploadRecords() {
+    public List<ImageDTO> getUploadRecords() {
         User loginUser = SessionUtils.getLoginUserFromSession();
         List<Image> imageList = imageService.list(
                 new QueryWrapper<Image>().lambda().eq(Image::getUserId, loginUser.getId()).orderByDesc(Image::getUploadTime)
         );
-        return imageList;
+
+        List<ImageDTO> imageDTOList= new ArrayList<ImageDTO>();
+        for (Image image : imageList) {
+            ImageDTO imageDTO= new ImageDTO(image);
+            imageDTOList.add(imageDTO);
+        }
+
+        return imageDTOList;
     }
 
     /**
@@ -117,9 +126,14 @@ public class ImageController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public JsonResponse deleteById(@PathVariable("id") Long id) throws Exception {
-        imageService.removeById(id);
-        return JsonResponse.success(null);
+    public JsonResponse deleteById(@PathVariable("id") String id) throws Exception {
+        System.out.println(id);
+        if(imageService.removeById(id)) {
+            return JsonResponse.success(null);
+        } else {
+            return JsonResponse.failure("删除失败");
+        }
+
     }
 
     /**
